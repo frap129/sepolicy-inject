@@ -1,8 +1,8 @@
-/* magiskpolicy.h - Public API for policy patching
+/* sepolicy-inject.h - Public API for policy patching
  */
 
-#ifndef _MAGISKPOLICY_H
-#define _MAGISKPOLICY_H
+#ifndef _SEPOLICY_INJECT_H
+#define _SEPOLICY_INJECT_H
 
 #ifndef ARG_MAX
 #define ARG_MAX 4096

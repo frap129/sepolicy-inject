@@ -1,22 +1,18 @@
-/* magiskpolicy.c - Main function for policy patching
+/* sepolicy-inject.c - Main function for policy patching
  *
  * Includes all the parsing logic for the policy statements
  */
 
-#ifdef INDEP_BINARY
-int magiskpolicy_main(int argc, char *argv[]);
+int inject_main(int argc, char *argv[]);
 int main(int argc, char *argv[]) {
-	return magiskpolicy_main(argc, argv);
+	return inject_main(argc, argv);
 }
 #define SELINUX_PATH        "/sys/fs/selinux/"
 #define SELINUX_ENFORCE     SELINUX_PATH "enforce"
 #define SELINUX_POLICY      SELINUX_PATH "policy"
 #define SELINUX_LOAD        SELINUX_PATH "load"
-#else
-#include "magisk.h"
-#endif
 
-#include "magiskpolicy.h"
+#include "sepolicy-inject.h"
 #include "sepolicy.h"
 
 static int syntax_err = 0;
@@ -57,11 +53,10 @@ static void statements() {
 
 static void usage(char *arg0) {
 	fprintf(stderr,
-		"MagiskPolicy v" xstr(MAGISK_VERSION) "(" xstr(MAGISK_VER_CODE) ") (by topjohnwu & phh) - SEPolicy Modification Tool\n\n"
+		"sepolicy-inject v13.3 (by topjohnwu & phh) - SEPolicy Modification Tool\n\n"
 		"%s [--options...] [policystatements...]\n\n"
 		"Options:\n"
 		"  --live: directly load patched policy to device\n"
-		// "  --magisk: complete (very large!) patches for Magisk and MagiskSU\n"
 		"  --minimal: minimal patches, used for boot image patches\n"
 		"  --load <infile>: load policies from <infile>\n"
 		"                   (load from current policies if not specified)\n"
@@ -354,7 +349,7 @@ static void syntax_error_msg() {
 	syntax_err = 1;
 }
 
-int magiskpolicy_main(int argc, char *argv[]) {
+int inject_main(int argc, char *argv[]) {
 	char *infile = NULL, *outfile = NULL, *tok, *saveptr;
 	int live = 0, minimal = 0;
 	struct vector rules;
